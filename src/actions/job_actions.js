@@ -1,5 +1,5 @@
 import axios from "axios";
-import apiData from "../API/apiData.json";
+import apiData from "../API/apiData";
 import { FETCH_JOBS, LIKE_JOB, CLEAR_LIKED_JOBS } from "./types";
 import * as Location from "expo-location";
 import qs from "qs";
@@ -26,7 +26,7 @@ export const fetchJobs = (region, callback) => async (dispatch) => {
     const url = buildJobsUrl(zip.region);
     console.log(`url: ${url}`);
     // let { data } = await axios.get(url);
-    let { results } = apiData;
+    let { results } = apiData();
     dispatch({ type: FETCH_JOBS, payload: results });
     callback();
     // console.log(data);

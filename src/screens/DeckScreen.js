@@ -54,7 +54,8 @@ class DeckScreen extends Component {
   };
 
   render() {
-    // console.log(`deck's job : ${this.props.jobs}`);
+    console.log(`DeckScreen's render's jobs: ${this.props.jobs}`);
+
     return (
       <View style={{ marginTop: 10 }}>
         <Swipe
@@ -71,7 +72,7 @@ class DeckScreen extends Component {
 }
 
 const mapStateToProps = ({ jobs }) => {
-  // console.log(jobs.results);
+  console.log(`DeckScreen's mapStateToProps's jobs: ${jobs.results}`);
   return { jobs: jobs.results };
 };
 

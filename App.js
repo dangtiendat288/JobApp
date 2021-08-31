@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  SafeAreaView,
-} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -47,7 +42,27 @@ const ReviewStack = () => (
 );
 
 const Main = () => (
-  <Tab.Navigator screenOptions={{ header: () => {} }}>
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      header: () => {},
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === "Map") {
+          iconName = focused ? "map" : "map-o";
+        } else if (route.name === "Deck") {
+          iconName = focused ? "file" : "file-o";
+        } else if (route.name === "ReviewStack") {
+          iconName = focused ? "heart" : "heart-o";
+        }
+
+        // You can return any component that you like here!
+        return <FontAwesome name={iconName} size={25} color={"black"} />;
+      },
+      tabBarActiveTintColor: "black",
+      tabBarInactiveTintColor: "gray",
+    })}
+  >
     <Tab.Screen name="Map" component={MapScreen} />
     <Tab.Screen name="Deck" component={DeckScreen} />
     <Tab.Screen name="ReviewStack" component={ReviewStack} />

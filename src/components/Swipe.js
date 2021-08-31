@@ -9,6 +9,13 @@ import {
   Platform,
 } from "react-native";
 
+if (
+  Platform.OS === "android" &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
+
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SWIPE_THRESHOLD = 0.25 * SCREEN_WIDTH;
 const SWIPE_OUT_DURATION = 250;
@@ -43,17 +50,18 @@ class Swipe extends Component {
     this.state = { panResponder, position, index: 0 };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.props.data) {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.data !== this.props.data) {
+      console.log(`Swipe componentDidUpdate: ${this.state.index}`);
       this.setState({ index: 0 });
     }
   }
 
-  componentWillUpdate() {
-    UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    LayoutAnimation.spring();
-  }
+  // componentWillUpdate() {
+  //   UIManager.setLayoutAnimationEnabledExperimental &&
+  //     UIManager.setLayoutAnimationEnabledExperimental(true);
+  //   LayoutAnimation.spring();
+  // }
 
   forceSwipe(direction) {
     const x = direction === "right" ? SCREEN_WIDTH : -SCREEN_WIDTH;
@@ -69,6 +77,7 @@ class Swipe extends Component {
     const item = data[this.state.index];
 
     direction === "right" ? onSwipeRight(item) : onSwipeLeft(item);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     this.state.position.setValue({ x: 0, y: 0 });
     this.setState({ index: this.state.index + 1 });
   }
