@@ -47,7 +47,7 @@ const ReviewStack = () => (
 );
 
 const Main = () => (
-  <Tab.Navigator>
+  <Tab.Navigator screenOptions={{ header: () => {} }}>
     <Tab.Screen name="Map" component={MapScreen} />
     <Tab.Screen name="Deck" component={DeckScreen} />
     <Tab.Screen name="ReviewStack" component={ReviewStack} />

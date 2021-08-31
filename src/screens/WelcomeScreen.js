@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, AsyncStorage } from "react-native";
 import Slides from "../components/Slides";
+import AppLoading from "expo-app-loading";
 
 const SLIDE_DATA = [
   {
@@ -18,7 +19,24 @@ const SLIDE_DATA = [
 ];
 
 export default class WelcomeScreen extends Component {
+  state = { token: null };
+
+  async componentDidMount() {
+    let token = await AsyncStorage.getItem("fb_token");
+    console.log(`componentDidMount: ${token}`);
+
+    if (token) {
+      this.props.navigation.navigate("Main", { screen: "Map" });
+      this.setState({ token });
+    } else {
+      this.setState({ token: false });
+    }
+  }
+
   render() {
+    if (this.state.token === null) {
+      return <AppLoading />;
+    }
     return <Slides data={SLIDE_DATA} navigation={this.props.navigation} />;
   }
 }
