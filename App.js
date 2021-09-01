@@ -5,7 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
-import store from "./src/store";
+import storeAndPersistor from "./src/store";
+import { PersistGate } from "redux-persist/integration/react";
 import * as Facebook from "expo-facebook";
 
 import AuthScreen from "./src/screens/AuthScreen";
@@ -19,6 +20,8 @@ import SettingsScreen from "./src/screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+const { store, persistor } = storeAndPersistor();
 
 const ReviewStack = () => (
   <Stack.Navigator>
@@ -73,13 +76,15 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <NavigationContainer>
-          <Tab.Navigator screenOptions={{ header: () => {} }}>
-            <Tab.Screen name="Welcome" component={WelcomeScreen} />
-            <Tab.Screen name="Auth" component={AuthScreen} />
-            <Tab.Screen name="Main" component={Main} />
-          </Tab.Navigator>
-        </NavigationContainer>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <Tab.Navigator screenOptions={{ header: () => {} }}>
+              <Tab.Screen name="Welcome" component={WelcomeScreen} />
+              <Tab.Screen name="Auth" component={AuthScreen} />
+              <Tab.Screen name="Main" component={Main} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </PersistGate>
       </Provider>
     );
   }
