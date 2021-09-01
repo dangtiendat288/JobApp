@@ -78,11 +78,11 @@ export default class App extends Component {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <NavigationContainer>
-            <Tab.Navigator screenOptions={{ header: () => {} }}>
-              <Tab.Screen name="Welcome" component={WelcomeScreen} />
-              <Tab.Screen name="Auth" component={AuthScreen} />
-              <Tab.Screen name="Main" component={Main} />
-            </Tab.Navigator>
+            <Stack.Navigator screenOptions={{ header: () => {} }}>
+              <Stack.Screen name="Welcome" component={WelcomeScreen} />
+              <Stack.Screen name="Auth" component={AuthScreen} />
+              <Stack.Screen name="Main" component={Main} />
+            </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
       </Provider>
